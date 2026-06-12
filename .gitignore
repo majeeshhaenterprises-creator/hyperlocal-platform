@@ -1,0 +1,236 @@
+# =============================================================================
+# HyperLocal monorepo — production .gitignore
+# Flutter · Node.js · Next.js · VS Code · macOS · Windows
+# =============================================================================
+
+# =============================================================================
+# Dependencies
+# =============================================================================
+node_modules/
+.pnp
+.pnp.js
+.pnp.cjs
+.pnpm-store/
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# =============================================================================
+# Node.js / package managers
+# =============================================================================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.tsbuildinfo
+.node_repl_history
+.npm
+.eslintcache
+.stylelintcache
+
+# =============================================================================
+# Next.js
+# =============================================================================
+.next/
+out/
+.vercel
+.vercel/*
+!.vercel/project.json
+
+# =============================================================================
+# Build outputs (shared)
+# =============================================================================
+dist/
+build/
+*.local
+*.tgz
+*.tar.gz
+
+# =============================================================================
+# Flutter / Dart
+# =============================================================================
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-plugins-dependencies.json
+.packages
+.pub-cache/
+.pub/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+**/ios/Flutter/App.framework
+**/ios/Flutter/Flutter.framework
+**/ios/Flutter/Flutter.podspec
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/ephemeral/
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/**/DerivedData/
+**/android/.gradle/
+**/android/captures/
+**/android/local.properties
+**/android/**/GeneratedPluginRegistrant.*
+**/android/key.properties
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+*.jks
+*.keystore
+*.p8
+*.p12
+*.mobileprovision
+*.pem
+app.*.symbols
+app.*.map.json
+coverage/
+
+# =============================================================================
+# Environment & secrets
+# =============================================================================
+.env
+.env.*
+!.env.example
+!.env*.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+credentials.json
+service-account*.json
+firebase-adapters.json
+google-services.json
+GoogleService-Info.plist
+
+# =============================================================================
+# Logs & diagnostics
+# =============================================================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# =============================================================================
+# Test & coverage
+# =============================================================================
+coverage/
+.nyc_output/
+*.lcov
+test-results/
+playwright-report/
+playwright/.cache/
+blob-report/
+junit.xml
+
+# =============================================================================
+# Database & local data
+# =============================================================================
+*.sqlite
+*.sqlite3
+*.db
+data/
+*.dump
+*.sql.gz
+
+# =============================================================================
+# Monorepo / tooling cache
+# =============================================================================
+.turbo/
+.parcel-cache/
+.cache/
+tmp/
+temp/
+*.tmp
+*.temp
+.swc/
+.nx/cache/
+.nx/workspace-data/
+storybook-static/
+
+# =============================================================================
+# VS Code
+# =============================================================================
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+*.code-workspace
+
+# =============================================================================
+# Other editors
+# =============================================================================
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+
+# =============================================================================
+# macOS
+# =============================================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# =============================================================================
+# Windows
+# =============================================================================
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# =============================================================================
+# Docker (local overrides only)
+# =============================================================================
+docker-compose.override.yml
+docker-compose.override.yaml
+.docker/
+
+# =============================================================================
+# OS / misc
+# =============================================================================
+*.orig
+*.rej
+*.bak
+*.backup
