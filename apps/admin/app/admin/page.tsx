@@ -1,36 +1,59 @@
-export default function AdminDashboard() {
+export default function AdminPage() {
   return (
-    <main className="min-h-screen bg-black text-white p-10">
-      <h1 className="text-5xl font-bold text-orange-500">
-        QwikGo Admin
-      </h1>
+    <main className="min-h-screen bg-black text-white">
+      {/* Header */}
+      <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800">
+        <h1 className="text-3xl font-bold text-orange-500">
+          ⚡ QwikGo Admin
+        </h1>
 
-      <p className="mt-3 text-gray-400">
-        Welcome Founder 👋
-      </p>
-
-      <div className="grid grid-cols-2 gap-6 mt-10">
-
-        <div className="bg-zinc-900 rounded-xl p-6">
-          <h2 className="text-gray-400">Customers</h2>
-          <h1 className="text-4xl font-bold mt-2">0</h1>
+        <div className="text-gray-300">
+          Welcome, Founder 👋
         </div>
+      </header>
 
-        <div className="bg-zinc-900 rounded-xl p-6">
-          <h2 className="text-gray-400">Merchants</h2>
-          <h1 className="text-4xl font-bold mt-2">0</h1>
-        </div>
+      <div className="flex">
+        {/* Sidebar */}
+        <aside className="w-64 min-h-screen border-r border-zinc-800 p-6">
+          <ul className="space-y-4 text-lg">
+            <li>🏠 Dashboard</li>
+            <li>👥 Customers</li>
+            <li>🏪 Merchants</li>
+            <li>📦 Products</li>
+            <li>🛒 Orders</li>
+            <li>🛵 Delivery Partners</li>
+            <li>⚙️ Settings</li>
+          </ul>
+        </aside>
 
-        <div className="bg-zinc-900 rounded-xl p-6">
-          <h2 className="text-gray-400">Delivery Partners</h2>
-          <h1 className="text-4xl font-bold mt-2">0</h1>
-        </div>
+        {/* Main Content */}
+        <section className="flex-1 p-8">
+          <h2 className="text-4xl font-bold">
+            Dashboard
+          </h2>
 
-        <div className="bg-zinc-900 rounded-xl p-6">
-          <h2 className="text-gray-400">Orders</h2>
-          <h1 className="text-4xl font-bold mt-2">0</h1>
-        </div>
+          <div className="grid grid-cols-2 gap-6 mt-8">
+            <div className="bg-zinc-900 rounded-xl p-6">
+              <p className="text-gray-400">Customers</p>
+              <h3 className="text-4xl font-bold mt-2">0</h3>
+            </div>
 
+            <div className="bg-zinc-900 rounded-xl p-6">
+              <p className="text-gray-400">Merchants</p>
+              <h3 className="text-4xl font-bold mt-2">0</h3>
+            </div>
+
+            <div className="bg-zinc-900 rounded-xl p-6">
+              <p className="text-gray-400">Orders</p>
+              <h3 className="text-4xl font-bold mt-2">0</h3>
+            </div>
+
+            <div className="bg-zinc-900 rounded-xl p-6">
+              <p className="text-gray-400">Delivery Partners</p>
+              <h3 className="text-4xl font-bold mt-2">0</h3>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );
