@@ -3,10 +3,15 @@
 import CustomerForm from "./components/CustomerForm";
 import CustomerTable from "./components/CustomerTable";
 import { useCustomers } from "@/hooks/useCustomers";
-
+import { useState } from "react";
 export default function CustomersPage() {
-  const { customers, loading } = useCustomers();
-
+  const { customers, loading, reload } = useCustomers();
+  const [search, setSearch] = useState("");
+  const filteredCustomers = customers.filter((customer) =>
+  customer.full_name.toLowerCase().includes(search.toLowerCase()) ||
+  customer.email.toLowerCase().includes(search.toLowerCase()) ||
+  customer.mobile.includes(search)
+);
   return (
     <main className="min-h-screen bg-black text-white p-8">
       <div className="flex items-center justify-between">
@@ -19,14 +24,26 @@ export default function CustomersPage() {
         </button>
       </div>
 
-      <CustomerForm />
+      <div className="mt-6">
+  <input
+    type="text"
+    placeholder="🔍 Search by name, email or mobile..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="w-full p-3 rounded-lg bg-zinc-900 border border-zinc-700 text-white"
+  />
+</div>
+
+
+
+      <CustomerForm onSaved={reload} />
 
       {loading ? (
         <div className="mt-8 text-gray-400">
           Loading customers...
         </div>
       ) : (
-        <CustomerTable customers={customers} />
+        <CustomerTable customers={filteredCustomers} />
       )}
     </main>
   );

@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { addCustomer } from "@/services/customerService";
 
-export default function CustomerForm() {
+interface Props {
+  onSaved?: () => void;
+}
+
+export default function CustomerForm({ onSaved }: Props) {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
@@ -19,7 +23,7 @@ export default function CustomerForm() {
       mobile,
       status: "Active",
     });
-
+    onSaved?.();
     alert("✅ Customer saved successfully!");
 
     setFullName("");
