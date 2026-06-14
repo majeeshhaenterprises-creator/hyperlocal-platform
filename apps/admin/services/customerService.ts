@@ -34,3 +34,22 @@ export async function deleteCustomer(id: string) {
 
   if (error) throw error;
 }
+export async function updateCustomer(
+  id: string,
+  customer: {
+    full_name: string;
+    email: string;
+    mobile: string;
+    status?: string;
+  }
+) {
+  const { data, error } = await supabase
+    .from("customers")
+    .update(customer)
+    .eq("id", id)
+    .select();
+
+  if (error) throw error;
+
+  return data;
+}
