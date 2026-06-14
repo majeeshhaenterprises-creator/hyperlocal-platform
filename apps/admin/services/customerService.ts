@@ -25,3 +25,12 @@ export async function addCustomer(customer: Customer) {
 
   return data;
 }
+
+export async function deleteCustomer(id: string) {
+  const { error } = await supabase
+    .from("customers")
+    .delete()
+    .eq("id", id);
+
+  if (error) throw error;
+}

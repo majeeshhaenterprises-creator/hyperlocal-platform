@@ -1,3 +1,5 @@
+import { deleteCustomer } from "@/services/customerService";
+
 type Customer = {
   id?: string;
   full_name: string;
@@ -11,7 +13,20 @@ interface Props {
 }
 
 export default function CustomerTable({ customers }: Props) {
-  return (
+  async function handleDelete(id: string) {
+  const ok = confirm("Delete this customer?");
+
+  if (!ok) return;
+
+  try {
+    await deleteCustomer(id);
+    alert("✅ Customer deleted successfully!");
+    window.location.reload();
+  } catch (error: any) {
+    console.error(error);
+    alert(error?.message || "Failed to delete customer");
+  }
+}return (
     <div className="mt-8 bg-zinc-900 rounded-xl p-6">
       <h2 className="text-xl font-semibold mb-4">
         Customer List
@@ -25,6 +40,7 @@ export default function CustomerTable({ customers }: Props) {
               <th>Email</th>
               <th>Mobile</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
 
@@ -55,6 +71,18 @@ export default function CustomerTable({ customers }: Props) {
                       {customer.status ?? "Active"}
                     </span>
                   </td>
+                  <td className="space-x-2">
+  <button className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded">
+    ✏️
+  </button>
+
+  <button
+  onClick={() => handleDelete(customer.id!)}
+  className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded"
+>
+  🗑
+</button>
+</td>
                 </tr>
               ))
             )}
