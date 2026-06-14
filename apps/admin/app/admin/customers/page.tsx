@@ -1,17 +1,34 @@
 "use client";
 
+import { useState } from "react";
 import CustomerForm from "./components/CustomerForm";
 import CustomerTable from "./components/CustomerTable";
 import { useCustomers } from "@/hooks/useCustomers";
-import { useState } from "react";
+import { Customer } from "@/types/customer";
+
 export default function CustomersPage() {
   const { customers, loading, reload } = useCustomers();
+
   const [search, setSearch] = useState("");
-  const filteredCustomers = customers.filter((customer) =>
-  customer.full_name.toLowerCase().includes(search.toLowerCase()) ||
-  customer.email.toLowerCase().includes(search.toLowerCase()) ||
-  customer.mobile.includes(search)
-);
+
+  const filteredCustomers = customers.filter(
+    (customer) =>
+      customer.full_name
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      customer.email
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      customer.mobile.includes(search)
+  );
+
+  function handleEdit(customer: Customer) {
+    console.log("Edit customer:", customer);
+    alert(
+      `✏️ Edit feature coming next!\n\n${customer.full_name}`
+    );
+  }
+
   return (
     <main className="min-h-screen bg-black text-white p-8">
       <div className="flex items-center justify-between">
@@ -25,16 +42,14 @@ export default function CustomersPage() {
       </div>
 
       <div className="mt-6">
-  <input
-    type="text"
-    placeholder="🔍 Search by name, email or mobile..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-    className="w-full p-3 rounded-lg bg-zinc-900 border border-zinc-700 text-white"
-  />
-</div>
-
-
+        <input
+          type="text"
+          placeholder="🔍 Search by name, email or mobile..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full p-3 rounded-lg bg-zinc-900 border border-zinc-700 text-white"
+        />
+      </div>
 
       <CustomerForm onSaved={reload} />
 
@@ -43,7 +58,11 @@ export default function CustomersPage() {
           Loading customers...
         </div>
       ) : (
-        <CustomerTable customers={filteredCustomers} />
+        <CustomerTable
+          customers={filteredCustomers}
+          onEdit={handleEdit}
+          onDeleted={reload}
+        />
       )}
     </main>
   );

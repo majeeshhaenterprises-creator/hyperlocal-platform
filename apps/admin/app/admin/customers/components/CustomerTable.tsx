@@ -10,9 +10,15 @@ type Customer = {
 
 interface Props {
   customers: Customer[];
+  onEdit?: (customer: Customer) => void;
+  onDeleted?: () => void;
 }
 
-export default function CustomerTable({ customers }: Props) {
+export default function CustomerTable({
+  customers,
+  onEdit,
+  onDeleted,
+}: Props) {
   async function handleDelete(id: string) {
     const ok = confirm("Delete this customer?");
 
@@ -21,7 +27,7 @@ export default function CustomerTable({ customers }: Props) {
     try {
       await deleteCustomer(id);
       alert("✅ Customer deleted successfully!");
-      window.location.reload();
+      onDeleted?.();
     } catch (error: any) {
       console.error(error);
       alert(error?.message || "Failed to delete customer");
@@ -77,6 +83,7 @@ export default function CustomerTable({ customers }: Props) {
 
                   <td className="space-x-2">
                     <button
+                      onClick={() => onEdit?.(customer)}
                       className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded"
                     >
                       ✏️
