@@ -1,15 +1,18 @@
 import { supabase } from "../lib/supabase";
 import { Customer } from "../types/customer";
 
-export async function getCustomers() {
+export async function getCustomers(): Promise<Customer[]> {
   const { data, error } = await supabase
     .from("customers")
     .select("*")
     .order("created_at", { ascending: false });
 
-  if (error) throw error;
+  if (error) {
+    console.error(error);
+    return [];
+  }
 
-  return data as Customer[];
+  return (data as Customer[]) || [];
 }
 
 export async function addCustomer(customer: Customer) {

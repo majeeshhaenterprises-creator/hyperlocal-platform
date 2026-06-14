@@ -1,8 +1,12 @@
 "use client";
 
 import CustomerForm from "./components/CustomerForm";
+import CustomerTable from "./components/CustomerTable";
+import { useCustomers } from "@/hooks/useCustomers";
 
 export default function CustomersPage() {
+  const { customers, loading } = useCustomers();
+
   return (
     <main className="min-h-screen bg-black text-white p-8">
       <div className="flex items-center justify-between">
@@ -17,37 +21,13 @@ export default function CustomersPage() {
 
       <CustomerForm />
 
-      <div className="mt-8 bg-zinc-900 rounded-xl p-6">
-        <h2 className="text-xl font-semibold mb-4">
-          Customer List
-        </h2>
-
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="text-left border-b border-zinc-700">
-                <th className="py-3">Name</th>
-                <th>Email</th>
-                <th>Mobile</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr className="border-b border-zinc-800">
-                <td className="py-4">No customers yet</td>
-                <td>-</td>
-                <td>-</td>
-                <td>
-                  <span className="bg-green-600 px-3 py-1 rounded">
-                    Active
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      {loading ? (
+        <div className="mt-8 text-gray-400">
+          Loading customers...
         </div>
-      </div>
+      ) : (
+        <CustomerTable customers={customers} />
+      )}
     </main>
   );
 }
