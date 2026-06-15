@@ -4,12 +4,13 @@ import { useState } from "react";
 import CustomerForm from "./components/CustomerForm";
 import CustomerTable from "./components/CustomerTable";
 import { useCustomers } from "@/hooks/useCustomers";
-import { Customer } from "@/types/customer";
 
 export default function CustomersPage() {
   const { customers, loading, reload } = useCustomers();
 
   const [search, setSearch] = useState("");
+
+  const [editingCustomer, setEditingCustomer] = useState<any>(null);
 
   const filteredCustomers = customers.filter(
     (customer) =>
@@ -21,13 +22,6 @@ export default function CustomersPage() {
         .includes(search.toLowerCase()) ||
       customer.mobile.includes(search)
   );
-
-  function handleEdit(customer: Customer) {
-    console.log("Edit customer:", customer);
-    alert(
-      `✏️ Edit feature coming next!\n\n${customer.full_name}`
-    );
-  }
 
   return (
     <main className="min-h-screen bg-black text-white p-8">
@@ -60,10 +54,18 @@ export default function CustomersPage() {
       ) : (
         <CustomerTable
           customers={filteredCustomers}
-          onEdit={handleEdit}
           onDeleted={reload}
+          onEdit={setEditingCustomer}
+           console.log("Editing:", customer);
+           setEditingCustomer(customer);
+          }}
         />
       )}
-    </main>
+      {editingCustomer && (
+  <div className="mt-6 p-4 rounded bg-blue-900 text-white">
+    Editing: {editingCustomer.full_name}
+  </div>
+)}
+   </main>
   );
 }
