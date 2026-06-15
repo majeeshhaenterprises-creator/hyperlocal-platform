@@ -9,10 +9,14 @@ type Merchant = {
 
 interface Props {
   merchants: Merchant[];
+  onEdit?: (merchant: Merchant) => void;
+  onDeleted?: () => void;
 }
 
 export default function MerchantTable({
   merchants,
+  onEdit,
+  onDeleted,
 }: Props) {
   return (
     <div className="mt-8 bg-zinc-900 rounded-xl p-6">
@@ -66,9 +70,14 @@ export default function MerchantTable({
                   </td>
 
                   <td className="space-x-2">
-                    <button className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded">
-                      ✏️
-                    </button>
+                    <button
+  onClick={() => onEdit?.(merchant)}
+  className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded"
+>
+  ✏️
+</button>
+                  
+                    
 
                     <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded">
                       🗑

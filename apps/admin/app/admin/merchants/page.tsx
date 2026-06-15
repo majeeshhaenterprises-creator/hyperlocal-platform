@@ -4,11 +4,15 @@ import { useState } from "react";
 import MerchantForm from "./components/MerchantForm";
 import MerchantTable from "./components/MerchantTable";
 import { useMerchants } from "@/hooks/useMerchants";
+import EditMerchantForm from "./components/EditMerchantForm";
+
 
 export default function MerchantsPage() {
   const { merchants, loading, reload } = useMerchants();
 
   const [search, setSearch] = useState("");
+
+  const [editingMerchant, setEditingMerchant] = useState<any>(null);
 
   const filteredMerchants = merchants.filter(
     (merchant) =>
@@ -46,7 +50,13 @@ export default function MerchantsPage() {
           Loading merchants...
         </div>
       ) : (
-        <MerchantTable merchants={filteredMerchants} />
+        <MerchantTable
+  merchants={filteredMerchants}
+  onDeleted={reload}
+  onEdit={(merchant) => {
+  setEditingMerchant(merchant);
+}}
+/>
       )}
     </main>
   );

@@ -4,6 +4,7 @@ import { useState } from "react";
 import CustomerForm from "./components/CustomerForm";
 import CustomerTable from "./components/CustomerTable";
 import { useCustomers } from "@/hooks/useCustomers";
+import EditCustomerForm from "./components/EditCustomerForm";
 
 export default function CustomersPage() {
   const { customers, loading, reload } = useCustomers();
@@ -47,25 +48,28 @@ export default function CustomersPage() {
 
       <CustomerForm onSaved={reload} />
 
+      {editingCustomer && (
+  <EditCustomerForm
+    customer={editingCustomer}
+    onSaved={reload}
+    onCancel={() => setEditingCustomer(null)}
+  />
+)}
+
       {loading ? (
         <div className="mt-8 text-gray-400">
           Loading customers...
         </div>
       ) : (
         <CustomerTable
-          customers={filteredCustomers}
-          onDeleted={reload}
-          onEdit={setEditingCustomer}
-           console.log("Editing:", customer);
-           setEditingCustomer(customer);
-          }}
-        />
+  customers={filteredCustomers}
+  onDeleted={reload}
+  onEdit={(customer) => {
+    console.log("Editing:", customer);
+    setEditingCustomer(customer);
+  }}
+/>
       )}
-      {editingCustomer && (
-  <div className="mt-6 p-4 rounded bg-blue-900 text-white">
-    Editing: {editingCustomer.full_name}
-  </div>
-)}
-   </main>
+    </main>
   );
 }

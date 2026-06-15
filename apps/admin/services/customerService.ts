@@ -43,11 +43,17 @@ export async function updateCustomer(
     status?: string;
   }
 ) {
+  console.log("Updating ID:", id);
+  console.log("Updating Data:", customer);
+
   const { data, error } = await supabase
     .from("customers")
     .update(customer)
     .eq("id", id)
     .select();
+
+  console.log("Supabase Data:", data);
+  console.log("Supabase Error:", error);
 
   if (error) throw error;
 
