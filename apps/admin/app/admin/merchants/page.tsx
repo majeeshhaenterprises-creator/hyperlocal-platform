@@ -7,6 +7,7 @@ import { useMerchants } from "@/hooks/useMerchants";
 import EditMerchantForm from "./components/EditMerchantForm";
 
 
+
 export default function MerchantsPage() {
   const { merchants, loading, reload } = useMerchants();
 
@@ -44,6 +45,33 @@ export default function MerchantsPage() {
       </div>
 
       <MerchantForm onSaved={reload} />
+
+{editingMerchant && (
+  <EditMerchantForm
+    merchant={editingMerchant}
+    onSaved={reload}
+    onCancel={() => setEditingMerchant(null)}
+  />
+)}
+
+      {editingMerchant && (
+  <div className="mt-6 rounded-xl border border-orange-500 bg-zinc-900 p-6">
+    <h2 className="text-2xl font-bold">
+      ✏️ Edit Merchant
+    </h2>
+
+    <div className="mt-3 text-gray-300">
+      {editingMerchant.name}
+    </div>
+
+    <button
+      onClick={() => setEditingMerchant(null)}
+      className="mt-4 rounded bg-zinc-700 px-4 py-2"
+    >
+      Cancel
+    </button>
+  </div>
+)}
 
       {loading ? (
         <div className="mt-8 text-gray-400">

@@ -1,3 +1,7 @@
+"use client";
+
+import { deleteProduct } from "@/services/productService";
+
 type Product = {
   id?: string;
   name: string;
@@ -10,11 +14,33 @@ type Product = {
 
 interface Props {
   products: Product[];
+  onEdit?: (product: Product) => void;
+  onDeleted?: () => void;
 }
 
 export default function ProductTable({
   products,
+  onEdit,
+  onDeleted,
 }: Props) {
+  async function handleDelete(id: string) {
+    const ok = confirm("Delete this product?");
+
+    if (!ok) return;
+
+    try {
+      await deleteProduct(id);
+
+      alert("✅ Product deleted successfully!");
+
+      onDeleted?.();
+    } catch (error: any) {
+      console.error(error);
+
+      alert(error?.message || "Failed to delete product");
+    }
+  }
+
   return (
     <div className="mt-8 bg-zinc-900 rounded-xl p-6">
       <h2 className="text-xl font-semibold mb-4">
@@ -67,11 +93,21 @@ export default function ProductTable({
                   </td>
 
                   <td className="space-x-2">
-                    <button className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded">
+                    <button
+                      onClick={() => onEdit?.(product)}
+                      className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded"
+                    >
                       ✏️
                     </button>
 
-                    <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded">
+                    <button
+                      onClick={() => {
+                        if (product.id) {
+                          handleDelete(product.id);
+                        }
+                      }}
+                      className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded"
+                    >
                       🗑
                     </button>
                   </td>

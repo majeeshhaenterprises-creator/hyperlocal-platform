@@ -1,3 +1,7 @@
+"use client";
+
+import { deleteMerchant } from "@/services/merchantService";
+
 type Merchant = {
   id?: string;
   name: string;
@@ -18,6 +22,23 @@ export default function MerchantTable({
   onEdit,
   onDeleted,
 }: Props) {
+  async function handleDelete(id: string) {
+    const ok = confirm("Delete this merchant?");
+
+    if (!ok) return;
+
+    try {
+      await deleteMerchant(id);
+
+      alert("✅ Merchant deleted successfully!");
+
+      onDeleted?.();
+    } catch (error: any) {
+      console.error(error);
+      alert(error?.message || "Failed to delete merchant");
+    }
+  }
+
   return (
     <div className="mt-8 bg-zinc-900 rounded-xl p-6">
       <h2 className="text-xl font-semibold mb-4">
@@ -71,15 +92,20 @@ export default function MerchantTable({
 
                   <td className="space-x-2">
                     <button
-  onClick={() => onEdit?.(merchant)}
-  className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded"
->
-  ✏️
-</button>
-                  
-                    
+                      onClick={() => onEdit?.(merchant)}
+                      className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded"
+                    >
+                      ✏️
+                    </button>
 
-                    <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded">
+                    <button
+                      onClick={() => {
+                        if (merchant.id) {
+                          handleDelete(merchant.id);
+                        }
+                      }}
+                      className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded"
+                    >
                       🗑
                     </button>
                   </td>

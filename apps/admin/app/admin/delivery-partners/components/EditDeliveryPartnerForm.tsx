@@ -1,53 +1,56 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { updateMerchant } from "@/services/merchantService";
-import { Merchant } from "@/types/merchant";
+import { updateDeliveryPartner } from "@/services/deliveryPartnerService";
 
 interface Props {
-  merchant: Merchant;
+  partner: any;
   onSaved: () => void;
   onCancel: () => void;
 }
 
-export default function EditMerchantForm({
-  merchant,
+export default function EditDeliveryPartnerForm({
+  partner,
   onSaved,
   onCancel,
 }: Props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
-  const [address, setAddress] = useState("");
+  const [vehicleType, setVehicleType] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setName(merchant.name);
-    setEmail(merchant.email);
-    setMobile(merchant.mobile);
-    setAddress(merchant.address);
-  }, [merchant]);
+    if (!partner) return;
+
+    setName(partner.name);
+    setEmail(partner.email);
+    setMobile(partner.mobile);
+    setVehicleType(partner.vehicle_type);
+  }, [partner]);
 
   async function handleUpdate() {
-    if (!merchant.id) return;
+    if (!partner?.id) return;
 
     try {
       setLoading(true);
 
-      await updateMerchant(merchant.id, {
-        ...merchant,
+      await updateDeliveryPartner(partner.id, {
         name,
         email,
         mobile,
-        address,
+        vehicle_type: vehicleType,
       });
 
-      alert("✅ Merchant updated successfully!");
+      alert("✅ Delivery Partner updated successfully!");
 
       onSaved();
       onCancel();
     } catch (error: any) {
-      alert(error?.message || "Failed to update merchant");
+      alert(
+        error?.message ||
+          "Failed to update delivery partner"
+      );
     } finally {
       setLoading(false);
     }
@@ -56,46 +59,50 @@ export default function EditMerchantForm({
   return (
     <div className="bg-zinc-900 rounded-xl p-6 mt-6 border border-orange-500">
       <h2 className="text-2xl font-bold mb-4">
-        ✏️ Edit Merchant
+        ✏️ Edit Delivery Partner
       </h2>
 
       <div className="space-y-4">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full p-3 rounded bg-zinc-800 border border-zinc-700"
+          placeholder="Name"
+          className="w-full p-3 rounded bg-zinc-800"
         />
 
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-3 rounded bg-zinc-800 border border-zinc-700"
+          placeholder="Email"
+          className="w-full p-3 rounded bg-zinc-800"
         />
 
         <input
           value={mobile}
           onChange={(e) => setMobile(e.target.value)}
-          className="w-full p-3 rounded bg-zinc-800 border border-zinc-700"
+          placeholder="Mobile"
+          className="w-full p-3 rounded bg-zinc-800"
         />
 
         <input
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          className="w-full p-3 rounded bg-zinc-800 border border-zinc-700"
+          value={vehicleType}
+          onChange={(e) => setVehicleType(e.target.value)}
+          placeholder="Vehicle Type"
+          className="w-full p-3 rounded bg-zinc-800"
         />
 
         <div className="flex gap-3">
           <button
             onClick={handleUpdate}
             disabled={loading}
-            className="bg-orange-500 hover:bg-orange-600 px-5 py-3 rounded-lg font-semibold"
+            className="bg-orange-500 px-5 py-3 rounded"
           >
-            {loading ? "Updating..." : "Update Merchant"}
+            {loading ? "Updating..." : "Update"}
           </button>
 
           <button
             onClick={onCancel}
-            className="bg-zinc-700 px-5 py-3 rounded-lg"
+            className="bg-zinc-700 px-5 py-3 rounded"
           >
             Cancel
           </button>

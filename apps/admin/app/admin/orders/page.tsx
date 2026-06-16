@@ -3,12 +3,14 @@
 import { useState } from "react";
 import OrderForm from "./components/OrderForm";
 import OrderTable from "./components/OrderTable";
+import EditOrderForm from "./components/EditOrderForm";
 import { useOrders } from "@/hooks/useOrders";
 
 export default function OrdersPage() {
   const { orders, loading, reload } = useOrders();
 
   const [search, setSearch] = useState("");
+  const [editingOrder, setEditingOrder] = useState<any>(null);
 
   const filteredOrders = orders.filter(
     (order) =>
@@ -47,12 +49,26 @@ export default function OrdersPage() {
 
       <OrderForm onSaved={reload} />
 
+      {editingOrder && (
+        <EditOrderForm
+          order={editingOrder}
+          onSaved={reload}
+          onCancel={() => setEditingOrder(null)}
+        />
+      )}
+
       {loading ? (
         <div className="mt-8 text-gray-400">
           Loading orders...
         </div>
       ) : (
-        <OrderTable orders={filteredOrders} />
+        <OrderTable
+          orders={filteredOrders}
+          onDeleted={reload}
+          onEdit={(order) => {
+            setEditingOrder(order);
+          }}
+        />
       )}
     </main>
   );

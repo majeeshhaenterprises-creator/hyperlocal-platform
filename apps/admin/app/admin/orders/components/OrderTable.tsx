@@ -1,3 +1,7 @@
+"use client";
+
+import { deleteOrder } from "@/services/orderService";
+
 type Order = {
   id?: string;
   customer_name: string;
@@ -9,11 +13,33 @@ type Order = {
 
 interface Props {
   orders: Order[];
+  onEdit?: (order: Order) => void;
+  onDeleted?: () => void;
 }
 
 export default function OrderTable({
   orders,
+  onEdit,
+  onDeleted,
 }: Props) {
+  async function handleDelete(id: string) {
+    const ok = confirm("Delete this order?");
+
+    if (!ok) return;
+
+    try {
+      await deleteOrder(id);
+
+      alert("✅ Order deleted successfully!");
+
+      onDeleted?.();
+    } catch (error: any) {
+      console.error(error);
+
+      alert(error?.message || "Failed to delete order");
+    }
+  }
+
   return (
     <div className="mt-8 bg-zinc-900 rounded-xl p-6">
       <h2 className="text-xl font-semibold mb-4">
@@ -66,11 +92,21 @@ export default function OrderTable({
                   <td>{order.delivery_partner}</td>
 
                   <td className="space-x-2">
-                    <button className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded">
+                    <button
+                      onClick={() => onEdit?.(order)}
+                      className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded"
+                    >
                       ✏️
                     </button>
 
-                    <button className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded">
+                    <button
+                      onClick={() => {
+                        if (order.id) {
+                          handleDelete(order.id);
+                        }
+                      }}
+                      className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded"
+                    >
                       🗑
                     </button>
                   </td>

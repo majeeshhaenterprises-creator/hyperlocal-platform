@@ -4,11 +4,13 @@ import { useState } from "react";
 import ProductForm from "./components/ProductForm";
 import ProductTable from "./components/ProductTable";
 import { useProducts } from "@/hooks/useProducts";
+import EditProductForm from "./components/EditProductForm";
 
 export default function ProductsPage() {
   const { products, loading, reload } = useProducts();
 
   const [search, setSearch] = useState("");
+  const [editingProduct, setEditingProduct] = useState<any>(null);
 
   const filteredProducts = products.filter(
     (product) =>
@@ -40,12 +42,26 @@ export default function ProductsPage() {
 
       <ProductForm onSaved={reload} />
 
+      {editingProduct && (
+  <EditProductForm
+    product={editingProduct}
+    onSaved={reload}
+    onCancel={() => setEditingProduct(null)}
+  />
+)}
+
       {loading ? (
         <div className="mt-8 text-gray-400">
           Loading products...
         </div>
       ) : (
-        <ProductTable products={filteredProducts} />
+        <ProductTable
+          products={filteredProducts}
+          onDeleted={reload}
+          onEdit={(product) => {
+            setEditingProduct(product);
+          }}
+        />
       )}
     </main>
   );
